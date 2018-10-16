@@ -22,6 +22,7 @@ Exit SIGs:
 """
 
 from options import options;
+import sys;
 
 debug = True;
 
@@ -31,7 +32,24 @@ opt.set_support('co','\n\tthe tree name need to check out from cvs','treename');
 opt.set_support('t','\n\tan optional option, if this option not specified, then to checkout the latest version of target project.','tag');
 opt.set_support('help','\n\tto display the help information');
 
+opt.load(sys.argv);
+
 tree = opt.get_param('co');
+tag  = opt.get_param('t'); ## if tag entered by user, then to use the first tag option entered by user.
 
 if tree == False:
 	## if tree name not entered by user, then need to print help information
+	## this is the same action as call -help option.
+
+## }
+
+if tag == False:
+	## if tag not entered by user, then need to check with latest project.
+
+## }
+
+
+
+## == after calling cvs co, then need to check if the project has successfully checked out.
+
+sys.exit(0); ## normal exit
