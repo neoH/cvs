@@ -22,11 +22,15 @@ Exit SIGs:
 """
 
 from options import options;
+from shell import shell;
 import sys;
 
-debug = True;
+debug   = True;
+cmd     = '';
+st_info = '';
 
 opt = options();
+sh  = shell();
 
 opt.set_support('co','\n\tthe tree name need to check out from cvs','treename');
 opt.set_support('t','\n\tan optional option, if this option not specified, then to checkout the latest version of target project.','tag');
@@ -40,14 +44,19 @@ tag  = opt.get_param('t'); ## if tag entered by user, then to use the first tag 
 if tree == False:
 	## if tree name not entered by user, then need to print help information
 	## this is the same action as call -help option.
+	print("no option detected, displaying help information:");
+	opt.descript();
+
 
 ## }
 
-if tag == False:
-	## if tag not entered by user, then need to check with latest project.
+if tag == False: cmd = 'cvs co '+tree; ## if tag not entered by user, then need to check with latest project.
+else: cmd = 'cvs co '+tree+' -r '+tag; ## else block, the tag has entered by the user, however, it may cause an invalid cvs tag, first to call cvs co
+if debug: print (cmd);
+else: st_info = sh.get_output(cmd);
 
-## }
-
+## == check if any error occurred, if is, then to report, else starting tag.
+## TODO
 
 
 ## == after calling cvs co, then need to check if the project has successfully checked out.
